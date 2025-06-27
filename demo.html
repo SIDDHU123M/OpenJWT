@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>OpenJWT - Live Demo</title>
+      <style>
+            * {
+                  margin: 0;
+                  padding: 0;
+                  box-sizing: border-box;
+            }
+
+            body {
+                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                  min-height: 100vh;
+                  padding: 20px;
+            }
+
+            .container {
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  background: white;
+                  border-radius: 20px;
+                  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                  overflow: hidden;
+            }
+
+            .header {
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                  color: white;
+                  padding: 40px;
+                  text-align: center;
+            }
+
+            .header h1 {
+                  font-size: 2.5rem;
+                  margin-bottom: 10px;
+            }
+
+            .header p {
+                  font-size: 1.2rem;
+                  opacity: 0.9;
+            }
+
+            .content {
+                  padding: 40px;
+            }
+
+            .demo-section {
+                  margin-bottom: 40px;
+            }
+
+            .demo-section h2 {
+                  color: #333;
+                  margin-bottom: 20px;
+                  border-bottom: 2px solid #667eea;
+                  padding-bottom: 10px;
+            }
+
+            .form-group {
+                  margin-bottom: 20px;
+            }
+
+            .form-group label {
+                  display: block;
+                  margin-bottom: 8px;
+                  font-weight: 600;
+                  color: #555;
+            }
+
+            .form-group input {
+                  width: 100%;
+                  padding: 12px;
+                  border: 2px solid #e0e0e0;
+                  border-radius: 8px;
+                  font-size: 16px;
+                  transition: border-color 0.3s;
+            }
+
+            .form-group input:focus {
+                  outline: none;
+                  border-color: #667eea;
+            }
+
+            .btn {
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                  color: white;
+                  border: none;
+                  padding: 12px 24px;
+                  border-radius: 8px;
+                  font-size: 16px;
+                  cursor: pointer;
+                  transition: transform 0.2s;
+            }
+
+            .btn:hover {
+                  transform: translateY(-2px);
+            }
+
+            .btn:disabled {
+                  opacity: 0.6;
+                  cursor: not-allowed;
+                  transform: none;
+            }
+
+            .result {
+                  margin-top: 20px;
+                  padding: 20px;
+                  border-radius: 8px;
+                  font-family: 'Courier New', monospace;
+                  white-space: pre-wrap;
+                  max-height: 300px;
+                  overflow-y: auto;
+            }
+
+            .result.success {
+                  background: #d4edda;
+                  border: 1px solid #c3e6cb;
+                  color: #155724;
+            }
+
+            .result.error {
+                  background: #f8d7da;
+                  border: 1px solid #f5c6cb;
+                  color: #721c24;
+            }
+
+            .grid {
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                  gap: 30px;
+            }
+
+            .card {
+                  background: #f8f9fa;
+                  padding: 30px;
+                  border-radius: 15px;
+                  border: 1px solid #e0e0e0;
+            }
+
+            .endpoint-info {
+                  background: #e3f2fd;
+                  padding: 20px;
+                  border-radius: 10px;
+                  margin-bottom: 30px;
+            }
+
+            .endpoint-info h3 {
+                  color: #1976d2;
+                  margin-bottom: 10px;
+            }
+
+            .endpoint-info code {
+                  background: #fff;
+                  padding: 2px 6px;
+                  border-radius: 4px;
+                  font-family: 'Courier New', monospace;
+            }
+
+            .token-display {
+                  background: #fff3cd;
+                  border: 1px solid #ffeaa7;
+                  padding: 15px;
+                  border-radius: 8px;
+                  margin: 20px 0;
+                  word-break: break-all;
+            }
+
+            .copy-btn {
+                  background: #28a745;
+                  font-size: 14px;
+                  padding: 8px 16px;
+                  margin-left: 10px;
+            }
+      </style>
+</head>
+
+<body>
+      <div class="container">
+            <div class="header">
+                  <h1>🔐 OpenJWT</h1>
+                  <p>Open Source JWT Auth-as-a-Service - Live Demo</p>
+            </div>
+
+            <div class="content">
+                  <div class="endpoint-info">
+                        <h3>🚀 API Base URL</h3>
+                        <p>Current endpoint: <code id="baseUrl">Loading...</code></p>
+                        <p>📖 Visit <code>/</code> for complete API documentation</p>
+                  </div>
+
+                  <div class="grid">
+                        <!-- Register Section -->
+                        <div class="card">
+                              <div class="demo-section">
+                                    <h2>👤 Register User</h2>
+                                    <form id="registerForm">
+                                          <div class="form-group">
+                                                <label for="regEmail">Email:</label>
+                                                <input type="email" id="regEmail" placeholder="user@example.com"
+                                                      required>
+                                          </div>
+                                          <div class="form-group">
+                                                <label for="regPassword">Password:</label>
+                                                <input type="password" id="regPassword"
+                                                      placeholder="Minimum 6 characters" required>
+                                          </div>
+                                          <div class="form-group">
+                                                <label for="regName">Name:</label>
+                                                <input type="text" id="regName" placeholder="Your Name" required>
+                                          </div>
+                                          <button type="submit" class="btn">Register</button>
+                                    </form>
+                                    <div id="registerResult" class="result" style="display: none;"></div>
+                              </div>
+                        </div>
+
+                        <!-- Login Section -->
+                        <div class="card">
+                              <div class="demo-section">
+                                    <h2>🔐 Login User</h2>
+                                    <form id="loginForm">
+                                          <div class="form-group">
+                                                <label for="loginEmail">Email:</label>
+                                                <input type="email" id="loginEmail" placeholder="user@example.com"
+                                                      required>
+                                          </div>
+                                          <div class="form-group">
+                                                <label for="loginPassword">Password:</label>
+                                                <input type="password" id="loginPassword" placeholder="Your password"
+                                                      required>
+                                          </div>
+                                          <button type="submit" class="btn">Login</button>
+                                    </form>
+                                    <div id="loginResult" class="result" style="display: none;"></div>
+                              </div>
+                        </div>
+
+                        <!-- Verify Section -->
+                        <div class="card">
+                              <div class="demo-section">
+                                    <h2>✅ Verify Token</h2>
+                                    <form id="verifyForm">
+                                          <div class="form-group">
+                                                <label for="verifyToken">JWT Token:</label>
+                                                <input type="text" id="verifyToken"
+                                                      placeholder="Paste your JWT token here" required>
+                                          </div>
+                                          <button type="submit" class="btn">Verify Token</button>
+                                    </form>
+                                    <div id="verifyResult" class="result" style="display: none;"></div>
+                              </div>
+                        </div>
+                  </div>
+
+                  <!-- Current Token Display -->
+                  <div class="token-display" id="currentToken" style="display: none;">
+                        <strong>🎫 Current Token:</strong>
+                        <div id="tokenValue"></div>
+                        <button class="btn copy-btn" onclick="copyToken()">Copy Token</button>
+                  </div>
+            </div>
+      </div>
+
+      <script>
+            // Set base URL
+            const baseUrl = window.location.origin;
+            document.getElementById('baseUrl').textContent = baseUrl;
+
+            let currentTokenValue = '';
+
+            // Utility function to display results
+            function displayResult(elementId, data, isSuccess = true) {
+                  const element = document.getElementById(elementId);
+                  element.textContent = JSON.stringify(data, null, 2);
+                  element.className = `result ${isSuccess ? 'success' : 'error'}`;
+                  element.style.display = 'block';
+
+                  // If successful and contains token, display it
+                  if (isSuccess && data.token) {
+                        currentTokenValue = data.token;
+                        document.getElementById('tokenValue').textContent = data.token;
+                        document.getElementById('currentToken').style.display = 'block';
+
+                        // Auto-fill verify token input
+                        document.getElementById('verifyToken').value = data.token;
+                  }
+            }
+
+            // Copy token to clipboard
+            function copyToken() {
+                  navigator.clipboard.writeText(currentTokenValue).then(() => {
+                        alert('Token copied to clipboard!');
+                  });
+            }
+
+            // Register form handler
+            document.getElementById('registerForm').addEventListener('submit', async (e) => {
+                  e.preventDefault();
+
+                  const email = document.getElementById('regEmail').value;
+                  const password = document.getElementById('regPassword').value;
+                  const name = document.getElementById('regName').value;
+
+                  try {
+                        const response = await fetch(`${baseUrl}/register`, {
+                              method: 'POST',
+                              headers: {
+                                    'Content-Type': 'application/json',
+                              },
+                              body: JSON.stringify({ email, password, name })
+                        });
+
+                        const data = await response.json();
+                        displayResult('registerResult', data, response.ok);
+
+                        if (response.ok) {
+                              // Auto-fill login form
+                              document.getElementById('loginEmail').value = email;
+                              document.getElementById('loginPassword').value = password;
+                        }
+                  } catch (error) {
+                        displayResult('registerResult', { error: error.message }, false);
+                  }
+            });
+
+            // Login form handler
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                  e.preventDefault();
+
+                  const email = document.getElementById('loginEmail').value;
+                  const password = document.getElementById('loginPassword').value;
+
+                  try {
+                        const response = await fetch(`${baseUrl}/login`, {
+                              method: 'POST',
+                              headers: {
+                                    'Content-Type': 'application/json',
+                              },
+                              body: JSON.stringify({ email, password })
+                        });
+
+                        const data = await response.json();
+                        displayResult('loginResult', data, response.ok);
+                  } catch (error) {
+                        displayResult('loginResult', { error: error.message }, false);
+                  }
+            });
+
+            // Verify form handler
+            document.getElementById('verifyForm').addEventListener('submit', async (e) => {
+                  e.preventDefault();
+
+                  const token = document.getElementById('verifyToken').value;
+
+                  try {
+                        const response = await fetch(`${baseUrl}/verify`, {
+                              method: 'POST',
+                              headers: {
+                                    'Content-Type': 'application/json',
+                              },
+                              body: JSON.stringify({ token })
+                        });
+
+                        const data = await response.json();
+                        displayResult('verifyResult', data, response.ok);
+                  } catch (error) {
+                        displayResult('verifyResult', { error: error.message }, false);
+                  }
+            });
+
+            // Pre-fill with demo data
+            window.addEventListener('load', () => {
+                  document.getElementById('regEmail').value = 'demo@openjwt.com';
+                  document.getElementById('regPassword').value = 'demo123';
+                  document.getElementById('regName').value = 'Demo User';
+            });
+      </script>
+</body>
+
+</html>

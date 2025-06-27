@@ -1,0 +1,54 @@
+{
+  "name": "openjwt-service",
+  "version": "1.0.0",
+  "description": "Open Source JWT Auth-as-a-Service",
+  "main": "nodejs-version/server.js",
+  "scripts": {
+    "start": "node nodejs-version/server.js",
+    "dev": "cd nodejs-version && npm run dev",
+    "test": "cd nodejs-version && npm test",
+    "heroku-postbuild": "cd nodejs-version && npm install",
+    "setup:nodejs": "cd nodejs-version && npm install && cp .env.example .env",
+    "setup:python": "cd python-version && pip install -r requirements.txt && cp .env.example .env"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "express-rate-limit": "^6.10.0",
+    "express-validator": "^7.0.1",
+    "dotenv": "^16.3.1",
+    "uuid": "^9.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.6.2",
+    "supertest": "^6.3.3"
+  },
+  "keywords": [
+    "jwt",
+    "auth",
+    "authentication",
+    "microservice",
+    "api",
+    "heroku",
+    "open-source"
+  ],
+  "author": "OpenJWT Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/OpenJWT.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/OpenJWT/issues"
+  },
+  "homepage": "https://github.com/yourusername/OpenJWT#readme"
+}
