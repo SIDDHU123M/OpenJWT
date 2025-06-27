@@ -4,7 +4,7 @@ A minimal hosted microservice providing JWT authentication endpoints for fronten
 
 ## 🚀 Live Demo
 
-- **Heroku**: `https://your-app.herokuapp.com`
+- **Heroku**: `https://openjwt-3100173929eb.herokuapp.com`
 - **Documentation**: Access `/` for API usage documentation
 
 ## ✨ Features
@@ -108,7 +108,7 @@ Verify JWT token validity.
 1. **Register a user:**
 
 ```bash
-curl -X POST https://your-app.herokuapp.com/register \
+curl -X POST https://openjwt-3100173929eb.herokuapp.com//register \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"test123","name":"Test User"}'
 ```
@@ -116,7 +116,7 @@ curl -X POST https://your-app.herokuapp.com/register \
 2. **Login:**
 
 ```bash
-curl -X POST https://your-app.herokuapp.com/login \
+curl -X POST https://openjwt-3100173929eb.herokuapp.com//login \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"test123"}'
 ```
@@ -124,7 +124,7 @@ curl -X POST https://your-app.herokuapp.com/login \
 3. **Verify token:**
 
 ```bash
-curl -X POST https://your-app.herokuapp.com/verify \
+curl -X POST https://openjwt-3100173929eb.herokuapp.com/verify \
   -H "Content-Type: application/json" \
   -d '{"token":"YOUR_JWT_TOKEN_HERE"}'
 ```
@@ -134,31 +134,40 @@ curl -X POST https://your-app.herokuapp.com/verify \
 ```javascript
 // Register
 const register = async (email, password, name) => {
-  const response = await fetch("https://your-app.herokuapp.com/register", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password, name }),
-  });
+  const response = await fetch(
+    "https://openjwt-3100173929eb.herokuapp.com//register",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, name }),
+    }
+  );
   return response.json();
 };
 
 // Login
 const login = async (email, password) => {
-  const response = await fetch("https://your-app.herokuapp.com/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
+  const response = await fetch(
+    "https://openjwt-3100173929eb.herokuapp.com//login",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    }
+  );
   return response.json();
 };
 
 // Verify
 const verify = async (token) => {
-  const response = await fetch("https://your-app.herokuapp.com/verify", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token }),
-  });
+  const response = await fetch(
+    "https://openjwt-3100173929eb.herokuapp.com//verify",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
+    }
+  );
   return response.json();
 };
 ```
@@ -218,7 +227,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/OpenJWT/issues)
+- **Issues**: [GitHub Issues](https://github.com/SIDDHU123M/OpenJWT/issues)
 - **Documentation**: Visit `/` endpoint for live API documentation
 - **Community**: Join our discussions
 
