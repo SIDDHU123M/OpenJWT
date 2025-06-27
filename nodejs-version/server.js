@@ -205,7 +205,7 @@ app.get("/", (req, res) => {
         "Enabled (100 requests per 15 minutes, 5 auth attempts per 15 minutes)",
     },
     cors: "Enabled for all origins (configure CORS_ORIGIN environment variable for production)",
-    github: "https://github.com/yourusername/OpenJWT",
+    github: "https://github.com/SIDDHU123M/OpenJWT",
     license: "MIT",
   };
 
